@@ -29,7 +29,8 @@ else
   ENDPOINTS=$(kubectl get route -n "${NAMESPACE}" -o jsonpath='{range .items[*]}{"https://"}{.spec.host}{.spec.path}{"\n"}{end}')
 fi
 
-echo "Validating endpoints:\n${ENDPOINTS}"
+echo "Validating endpoints:"
+echo "${ENDPOINTS}"
 
 echo "${ENDPOINTS}" | while read endpoint; do
   if [[ -n "${endpoint}" ]]; then
