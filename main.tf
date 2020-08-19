@@ -7,7 +7,7 @@ data "ibm_resource_group" "resource_group" {
 }
 
 locals {
-  role            = "Manager"
+  role            = "Operator"
   name_prefix     = var.name_prefix != "" ? var.name_prefix : var.resource_group_name
 }
 
