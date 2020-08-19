@@ -39,7 +39,7 @@ resource "ibm_resource_key" "redis_key" {
 }
 
 resource "ibm_container_bind_service" "redis_binding" {
-  count = var.cluster_id != "" ? var.namespace_count : 0
+  count = var.namespace_count
 
   cluster_name_id       = var.cluster_id
   service_instance_name = ibm_resource_instance.redis_instance.name
