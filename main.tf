@@ -20,7 +20,7 @@ resource "ibm_resource_instance" "redis_instance" {
   tags              = var.tags
 
   timeouts {
-    create = "15m"
+    create = "45m"
     update = "15m"
     delete = "15m"
   }
