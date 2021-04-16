@@ -19,6 +19,12 @@ variable "provision" {
   default     = true
 }
 
+variable "private_endpoints" {
+  type        = bool
+  description = "Flag indicating that private endpoints should be enabled. Otherwise public-and-private endpoints will be provisioned."
+  default     = true
+}
+
 variable "name" {
   type        = string
   description = "The name of the resource. If not provided, the value will default to {name_prefix}-redis"

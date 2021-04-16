@@ -18,7 +18,7 @@ data "ibm_resource_group" "resource_group" {
   name = var.resource_group_name
 }
 
-resource ibm_resource_instance redis_instance {
+resource ibm_database redis_instance {
   count = var.provision ? 1 : 0
 
   name              = local.name
@@ -28,6 +28,8 @@ resource ibm_resource_instance redis_instance {
   resource_group_id = data.ibm_resource_group.resource_group.id
   tags              = var.tags
 
+  service_endpoints = var.private_endpoints ? "private" : "public-and-private"
+
   timeouts {
     create = "45m"
     update = "15m"
@@ -35,8 +37,8 @@ resource ibm_resource_instance redis_instance {
   }
 }
 
-data ibm_resource_instance redis_instance {
-  depends_on        = [ibm_resource_instance.redis_instance]
+data ibm_database redis_instance {
+  depends_on        = [ibm_database.redis_instance]
 
   name              = local.name
   resource_group_id = data.ibm_resource_group.resource_group.id
@@ -47,7 +49,7 @@ data ibm_resource_instance redis_instance {
 resource "ibm_resource_key" "redis_key" {
   name                 = "${local.name}-key"
   role                 = local.role
-  resource_instance_id = data.ibm_resource_instance.redis_instance.id
+  resource_instance_id = data.ibm_database.redis_instance.id
 
   timeouts {
     create = "15m"
