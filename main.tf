@@ -1,19 +1,28 @@
-provider "ibm" {
-  version = ">= 1.2.1"
+
+locals {
+  role        = "Operator"
+  name_prefix = var.name_prefix != "" ? var.name_prefix : var.resource_group_name
+  name        = lower(replace(var.name != "" ? var.name : "${local.name_prefix}-redis", "/[^a-zA-Z0-9_\\-\\.]/", ""))
+  service     = "databases-for-redis"
+}
+
+resource null_resource print-names {
+  provisioner "local-exec" {
+    command = "echo 'Resource group name: ${var.resource_group_name}'"
+  }
 }
 
 data "ibm_resource_group" "resource_group" {
+  depends_on = [null_resource.print-names]
+
   name = var.resource_group_name
 }
 
-locals {
-  role            = "Operator"
-  name_prefix     = var.name_prefix != "" ? var.name_prefix : var.resource_group_name
-}
+resource ibm_resource_instance redis_instance {
+  count = var.provision ? 1 : 0
 
-resource "ibm_resource_instance" "redis_instance" {
-  name              = "${replace(local.name_prefix, "/[^a-zA-Z0-9_\\-\\.]/", "")}-redis"
-  service           = "databases-for-redis"
+  name              = local.name
+  service           = local.service
   plan              = var.plan
   location          = var.resource_location
   resource_group_id = data.ibm_resource_group.resource_group.id
@@ -26,12 +35,20 @@ resource "ibm_resource_instance" "redis_instance" {
   }
 }
 
-resource "ibm_resource_key" "redis_key" {
-  name                 = "${ibm_resource_instance.redis_instance.name}-key"
-  role                 = local.role
-  resource_instance_id = ibm_resource_instance.redis_instance.id
+data ibm_resource_instance redis_instance {
+  depends_on        = [ibm_resource_instance.redis_instance]
 
-  //User can increase timeouts
+  name              = local.name
+  resource_group_id = data.ibm_resource_group.resource_group.id
+  location          = var.resource_location
+  service           = local.service
+}
+
+resource "ibm_resource_key" "redis_key" {
+  name                 = "${local.name}-key"
+  role                 = local.role
+  resource_instance_id = data.ibm_resource_instance.redis_instance.id
+
   timeouts {
     create = "15m"
     delete = "15m"

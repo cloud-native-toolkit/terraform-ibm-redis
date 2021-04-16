@@ -8,6 +8,23 @@ variable "resource_location" {
   description = "Geographic location of the resource (e.g. us-south, us-east)"
 }
 
+variable "ibmcloud_api_key" {
+  type        = string
+  description = "The IBM Cloud api token"
+}
+
+variable "provision" {
+  type        = bool
+  description = "Flag indicating that the instance should be provisioned. If false, then the instance is expected to exist already."
+  default     = true
+}
+
+variable "name" {
+  type        = string
+  description = "The name of the resource. If not provided, the value will default to {name_prefix}-redis"
+  default     = ""
+}
+
 variable "tags" {
   type        = list(string)
   description = "Tags that should be applied to the service"
