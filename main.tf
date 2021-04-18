@@ -2,7 +2,7 @@
 locals {
   role        = "Operator"
   name_prefix = var.name_prefix != "" ? var.name_prefix : var.resource_group_name
-  name        = lower(replace(var.name != "" ? var.name : "${local.name_prefix}-redis", "/[^a-zA-Z0-9_\\-\\.]/", ""))
+  name        = lower(replace(var.name != "" ? var.name : "${local.name_prefix}-${var.label}", "/[^a-zA-Z0-9_\\-\\.]/", ""))
   service     = "databases-for-redis"
   key_name    = "${local.name}-key"
 }

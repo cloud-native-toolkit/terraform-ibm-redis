@@ -36,3 +36,9 @@ output "service" {
   value       = local.service
   depends_on = [data.ibm_database.redis_instance]
 }
+
+output "label" {
+  description = "The label for the redis instance"
+  value       = var.label
+  depends_on = [data.ibm_database.redis_instance]
+}
