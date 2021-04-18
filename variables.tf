@@ -27,8 +27,14 @@ variable "private_endpoints" {
 
 variable "name" {
   type        = string
-  description = "The name of the resource. If not provided, the value will default to {name_prefix}-redis"
+  description = "The name of the resource. If not provided, the value will default to {name_prefix}-{label}"
   default     = ""
+}
+
+variable "label" {
+  type        = string
+  description = "The label of the resource used to build the name along with the name_prefix."
+  default     = "redis"
 }
 
 variable "tags" {
