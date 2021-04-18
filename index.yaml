@@ -3,25 +3,7 @@ name: ibm-redis
 type: terraform
 description: Module to provision a managed Redis instance in an IBM Cloud account
 tags:
-    - service
-    - data
-    - cache
-versions:
-- platforms: []
-  dependencies:
-    - id: resource_group
-      refs:
-        - source: github.com/cloud-native-toolkit/terraform-ibm-resource-group
-          version: ">= 2.1.0"
-  variables: []
-    - name: resource_group_name
-      moduleRef:
-        id: resource_group
-        output: name
-    - name : resource_location
-      alias: region
-      scope: global
-    - name : name_prefix
-      scope: global
-    - name : ibmcloud_api_key
-      scope: global
+  - service
+  - data
+  - cache
+versions: {}
