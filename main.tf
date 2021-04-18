@@ -4,6 +4,7 @@ locals {
   name_prefix = var.name_prefix != "" ? var.name_prefix : var.resource_group_name
   name        = lower(replace(var.name != "" ? var.name : "${local.name_prefix}-redis", "/[^a-zA-Z0-9_\\-\\.]/", ""))
   service     = "databases-for-redis"
+  key_name    = "${local.name}-key"
 }
 
 resource null_resource print-names {
@@ -47,7 +48,7 @@ data ibm_database redis_instance {
 }
 
 resource "ibm_resource_key" "redis_key" {
-  name                 = "${local.name}-key"
+  name                 = local.key_name
   role                 = local.role
   resource_instance_id = data.ibm_database.redis_instance.id
 
