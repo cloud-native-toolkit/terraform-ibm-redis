@@ -32,9 +32,9 @@ resource ibm_database redis_instance {
   service_endpoints = var.private_endpoints ? "private" : "public-and-private"
 
   timeouts {
-    create = "45m"
-    update = "15m"
-    delete = "15m"
+    create = "90m"
+    update = "30m"
+    delete = "30m"
   }
 }
 
