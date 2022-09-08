@@ -1,6 +1,6 @@
 # IBM Redis
 
-Module to provision a managed Redis instance within an IBM Cloud account.
+This module to provision a managed Redis instance within an IBM Cloud account.
 
 ## Software dependencies
 
